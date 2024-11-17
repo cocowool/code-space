@@ -1,0 +1,35 @@
+version: "2.1"
+services:
+    nginx:
+        image: nginx
+        ports:
+            - "8081:8081"
+        volumes: 
+            - ~/Projects/2024-projects/code-space/docker-conf/lnmp/nginx/www:/usr/share/nginx/html
+            - ~/Projects/2024-projects/code-space/docker-conf/lnmp/nginx/conf:/etc/nginx/conf
+            - ~/Projects/2024-projects/code-space/docker-conf/lnmp/nginx/conf.d:/etc/nginx/conf.d
+            - ~/Projects/2024-projects/code-space/docker-conf/lnmp/nginx/logs:/var/log/nginx
+        networks:
+            lnmp-network:
+                ipv4_address: 172.23.0.5
+    php:
+        image: php:5.6-fpm-alpine3.8
+        volumes:
+            - ~/Projects/sh-valley/docker-conf/lnmp/nginx/www:/www
+        networks:
+            - lnmp-network
+    mysql:
+        image: mysql:5.6
+        ports:
+            - "3306:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=123456
+        networks:
+            lnmp-network:
+                ipv4_address: 172.23.0.3
+networks: 
+    lnmp-network:
+        ipam:
+            config:
+            - subnet: 172.23.0.0/16
+              gateway: 172.23.0.1
