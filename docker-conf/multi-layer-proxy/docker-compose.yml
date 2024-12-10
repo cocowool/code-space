@@ -1,0 +1,91 @@
+version: "2.1"
+services:
+    nginx-20:
+        image: nginx:1.19
+        expose:
+          - "80"
+        ports:
+          - "2380:80"
+        volumes:
+          - ~/Projects/sh-valley/docker-conf/multi-layer-proxy/nginx_20.conf:/etc/nginx/nginx.conf
+        networks:
+            test-network:
+                ipv4_address: 172.136.0.20
+    nginx-21:
+        image: nginx:1.19
+        expose:
+          - "80"
+        ports:
+          - "2381:80"
+        volumes:
+          - ~/Projects/sh-valley/docker-conf/multi-layer-proxy/nginx_21.conf:/etc/nginx/nginx.conf
+        networks:
+            test-network:
+                ipv4_address: 172.136.0.21
+    nginx-22:
+        image: nginx:1.19
+        expose:
+          - "80"
+        ports:
+          - "2382:80"
+        volumes:
+          - ~/Projects/sh-valley/docker-conf/multi-layer-proxy/nginx_22.conf:/etc/nginx/nginx.conf
+        networks:
+            test-network:
+                ipv4_address: 172.136.0.22
+    httpd-10:
+        image: httpd:2.4.54-alpine3.16
+        expose:
+          - "80"
+          - "1390"
+        ports:
+            - "1380:80"
+            - "1390:1390"
+        volumes: 
+            - ~/Projects/sh-valley/docker-conf/multi-layer-proxy/index_10.html:/usr/local/apache2/htdocs/index.html
+            - ~/Projects/sh-valley/docker-conf/multi-layer-proxy/httpd_10.conf:/usr/local/apache2/conf/httpd.conf
+        networks:
+            test-network:
+                ipv4_address: 172.136.0.10
+    httpd-11:
+        image: httpd:2.4.54-alpine3.16
+        expose:
+          - "80"
+        ports:
+            - "1381:80"
+        volumes: 
+            - ~/Projects/sh-valley/docker-conf/multi-layer-proxy/index_11.html:/usr/local/apache2/htdocs/index.html
+            - ~/Projects/sh-valley/docker-conf/multi-layer-proxy/httpd_11.conf:/usr/local/apache2/conf/httpd.conf
+        networks:
+            test-network:
+                ipv4_address: 172.136.0.11
+    httpd-12:
+        image: httpd:2.4.54-alpine3.16
+        expose:
+          - "80"
+        ports:
+            - "1382:80"
+        volumes: 
+            - ~/Projects/sh-valley/docker-conf/multi-layer-proxy/index_12.html:/usr/local/apache2/htdocs/index.html
+            - ~/Projects/sh-valley/docker-conf/multi-layer-proxy/httpd_12.conf:/usr/local/apache2/conf/httpd.conf
+        networks:
+            test-network:
+                ipv4_address: 172.136.0.12
+    httpd-13:
+        image: httpd:2.4.54-alpine3.16
+        expose:
+          - "80"
+        ports:
+            - "1383:80"
+        volumes: 
+            - ~/Projects/sh-valley/docker-conf/multi-layer-proxy/index_13.html:/usr/local/apache2/htdocs/index.html
+            - ~/Projects/sh-valley/docker-conf/multi-layer-proxy/httpd_13.conf:/usr/local/apache2/conf/httpd.conf
+        networks:
+            test-network:
+                ipv4_address: 172.136.0.13
+networks: 
+    test-network:
+        ipam:
+            config:
+            - subnet: 172.136.0.0/16
+              gateway: 172.136.0.1
